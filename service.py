@@ -81,14 +81,14 @@ def listings():
     """
 
     # get the filter params
-    min_bedrooms = request.GET.get('min_bed')
-    max_bedrooms = request.GET.get('max_bed')
+    min_bedrooms = bottle.request.GET.get('min_bed')
+    max_bedrooms = bottle.request.GET.get('max_bed')
 
-    min_bathrooms = request.GET.get('min_bath')
-    max_bathrooms = request.GET.get('max_bath')
+    min_bathrooms = bottle.request.GET.get('min_bath')
+    max_bathrooms = bottle.request.GET.get('max_bath')
 
-    min_price = request.GET.get('min_price')
-    max_price = request.GET.get('max_price')
+    min_price = bottle.request.GET.get('min_price')
+    max_price = bottle.request.GET.get('max_price')
 
     min_bedrooms = int(min_bedrooms) if min_bedrooms else None
     max_bedrooms = int(max_bedrooms) if max_bedrooms else None
