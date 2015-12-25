@@ -3,6 +3,7 @@ import gevent.monkey; gevent.monkey.patch_all()
 import bottle
 import httplib
 import logging
+import os
 
 app = bottle.Bottle()
 
@@ -19,6 +20,6 @@ def health_check():
 if __name__ == '__main__':
     app.run(
         host='0.0.0.0',
-        port=8000,
+        port=os.environ.get('PORT', 5000),
         server='gevent'
     )
