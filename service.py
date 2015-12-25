@@ -27,7 +27,6 @@ def load_listings(csv_url):
         longitude = float(longitude)
         latitude = float(latitude)
 
-
         listing = Listing(
             listing_id, street, status, price,
             bedrooms, bathrooms, sq_ft, longitude, latitude
@@ -52,11 +51,55 @@ def to_geojson(listings):
     feature_collection = FeatureCollection(features)
     return feature_collection
 
+
+def filter_listings(listings, min_bedrooms, max_bedrooms, min_bathrooms, max_bathrooms, min_price, max_price):
+    filtered_listings = []
+    if not listings:
+        # returning here because it could be None in addition to being a []
+        return filtered_listings
+    for listing in listings:
+        if min_bedrooms and listing.bedrooms < min_bedrooms:
+            continue
+        if max_bedrooms and listing.bedrooms > max_bedrooms:
+            continue
+        if min_bathrooms and listing.bathrooms < min_bathrooms:
+            continue
+        if max_bathrooms and listing.bathrooms > max_bathrooms:
+            continue
+        if min_price and listings.price < min_price:
+            continue
+        if max_price and listings.price < max_price:
+            continue
+        filtered_listings.append(listing)
+    return filtered_listings
+
+
 @app.get('/listings')
 def listings():
     """
     Get the listings
     """
+
+    # get the filter params
+    min_bedrooms = request.GET.get('min_bed')
+    max_bedrooms = request.GET.get('max_bed')
+
+    min_bathrooms = request.GET.get('min_bath')
+    max_bathrooms = request.GET.get('max_bath')
+
+    min_price = request.GET.get('min_price')
+    max_price = request.GET.get('max_price')
+
+    min_bedrooms = int(min_bedrooms) if min_bedrooms else None
+    max_bedrooms = int(max_bedrooms) if max_bedrooms else None
+
+    min_bathrooms = int(min_bathrooms) if min_bathrooms else None
+    max_bathrooms = int(max_bathrooms) if max_bathrooms else None
+
+    min_price = float(min_price) if min_price else None
+    max_price = float(max_price) if max_price else None
+
+    listings = filter_listings(listings, min_bedrooms, max_bedrooms, min_bathrooms, max_bathrooms, min_price, max_price)
     return to_geojson(listings)
 
 if __name__ == '__main__':
