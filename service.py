@@ -9,7 +9,7 @@ import urllib2
 from geojson import Feature, Point, FeatureCollection
 
 app = bottle.Bottle()
-listings = []
+LISTINGS = []
 log = logging.getLogger(__name__)
 
 def load_listings(csv_url):
@@ -99,12 +99,12 @@ def listings():
     min_price = float(min_price) if min_price else None
     max_price = float(max_price) if max_price else None
 
-    listings = filter_listings(listings, min_bedrooms, max_bedrooms, min_bathrooms, max_bathrooms, min_price, max_price)
+    listings = filter_listings(LISTINGS, min_bedrooms, max_bedrooms, min_bathrooms, max_bathrooms, min_price, max_price)
     return to_geojson(listings)
 
 if __name__ == '__main__':
     # load the csv file into the listing model
-    listings = load_listings('http://s3.amazonaws.com/opendoor-problems/listings.csv')
+    LISTINGS = load_listings('http://s3.amazonaws.com/opendoor-problems/listings.csv')
     app.run(
         host='0.0.0.0',
         port=os.environ.get('PORT', 5000),
