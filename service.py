@@ -23,6 +23,7 @@ def load_listings(csv_url):
 
         price = float(price)
         sq_ft = float(sq_ft)
+        bedrooms = int(bedrooms)
         bathrooms = int(bathrooms)
         longitude = float(longitude)
         latitude = float(latitude)
@@ -66,9 +67,9 @@ def filter_listings(listings, min_bedrooms, max_bedrooms, min_bathrooms, max_bat
             continue
         if max_bathrooms and listing.bathrooms > max_bathrooms:
             continue
-        if min_price and listings.price < min_price:
+        if min_price and listing.price < min_price:
             continue
-        if max_price and listings.price < max_price:
+        if max_price and listing.price > max_price:
             continue
         filtered_listings.append(listing)
     return filtered_listings
