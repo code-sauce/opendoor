@@ -61,7 +61,7 @@ def listings():
 
 if __name__ == '__main__':
     # load the csv file into the listing model
-    listings = load_listings('https://s3.amazonaws.com/opendoor-problems/listings.csv')
+    listings = load_listings('http://s3.amazonaws.com/opendoor-problems/listings.csv')
     app.run(
         host='0.0.0.0',
         port=os.environ.get('PORT', 5000),
